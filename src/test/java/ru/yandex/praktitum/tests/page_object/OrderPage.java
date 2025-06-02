@@ -25,78 +25,60 @@ public class OrderPage extends BasePage {
   private static final String RENTAL_PERIOD_OPTION_XPATH = "//div[text()='%s']";
   private static final String SCOOTER_COLOR_CHECKBOX_XPATH = "//label[text()='%s']";
 
+  public OrderPage(WebDriver driver) {
+    super(driver);
+  }
+
+
   public void fillUserInfoInputs(String name, String lastName, String address, String metroStation,
-                          String phone, WebDriver webDriver) {
-    WebElement nameInput = findElementWaitingVisibility(NAME_INPUT_XPATH, webDriver);
-//    scrollToElement(nameInput, webDriver);
+                          String phone) {
+    WebElement nameInput = findElementWaitingVisibility(NAME_INPUT_XPATH);
     nameInput.sendKeys(name);
-    WebElement lastNameInput = findElementWaitingVisibility(LAST_NAME_INPUT_XPATH,
-        webDriver
-    );
-//    scrollToElement(lastNameInput, webDriver);
+    WebElement lastNameInput = findElementWaitingVisibility(LAST_NAME_INPUT_XPATH);
     lastNameInput.sendKeys(lastName);
-    WebElement addressInput = findElementWaitingVisibility(ADDRESS_INPUT_XPATH, webDriver);
-//    scrollToElement(addressInput, webDriver);
+    WebElement addressInput = findElementWaitingVisibility(ADDRESS_INPUT_XPATH);
     addressInput.sendKeys(address);
-    WebElement metroStationInput = findElementWaitingVisibility(METRO_STATION_INPUT_XPATH,
-        webDriver
-    );
-//    scrollToElement(metroStationInput, webDriver);
+    WebElement metroStationInput = findElementWaitingVisibility(METRO_STATION_INPUT_XPATH);
     metroStationInput.sendKeys(metroStation);
-    WebElement metroStationOption = findElementWaitingVisibility(METRO_STATION_OPTION_XPATH, webDriver);
-//    scrollToElement(metroStationOption, webDriver);
+    WebElement metroStationOption = findElementWaitingVisibility(METRO_STATION_OPTION_XPATH);
     metroStationOption.click();
-    WebElement phoneInput = findElementWaitingVisibility(PHONE_INPUT_XPATH, webDriver);
-//    scrollToElement(phoneInput, webDriver);
+    WebElement phoneInput = findElementWaitingVisibility(PHONE_INPUT_XPATH);
     phoneInput.sendKeys(phone);
   }
 
   public void fillRentalInfoInputs(LocalDate rentalDate, RentalPeriod rentalPeriod,
-                                   ScooterColor scooterColor, String courierComment,
-                                   WebDriver webDriver) {
-    WebElement rentalDateInput = findElementWaitingVisibility(RENTAL_DATE_INPUT_XPATH,
-        webDriver
-    );
-//    scrollToElement(rentalDateInput, webDriver);
+                                   ScooterColor scooterColor, String courierComment) {
+    WebElement rentalDateInput = findElementWaitingVisibility(RENTAL_DATE_INPUT_XPATH);
     rentalDateInput.sendKeys(rentalDate.toString());
     rentalDateInput.sendKeys(Keys.ENTER);
-    WebElement rentalPeriodInput = findElementWaitingVisibility(RENTAL_PERIOD_INPUT_XPATH,
-        webDriver
-    );
-//    scrollToElement(rentalPeriodInput, webDriver);
+    WebElement rentalPeriodInput = findElementWaitingVisibility(RENTAL_PERIOD_INPUT_XPATH);
     rentalPeriodInput.click();
-    WebElement rentalPeriodOption = webDriver.findElement(
+    WebElement rentalPeriodOption = driver.findElement(
         By.xpath(String.format(RENTAL_PERIOD_OPTION_XPATH, rentalPeriod.getPeriod())));
-//    scrollToElement(rentalPeriodOption, webDriver);
     rentalPeriodOption.click();
-    WebElement scooterColorCheckBox = webDriver.findElement(
+    WebElement scooterColorCheckBox = driver.findElement(
         By.xpath(String.format(SCOOTER_COLOR_CHECKBOX_XPATH, scooterColor.getColorName())));
-//    scrollToElement(scooterColorCheckBox, webDriver);
     scooterColorCheckBox.click();
-    WebElement courierCommentInput = webDriver.findElement(COURIER_COMMENT_INPUT_XPATH);
-//    scrollToElement(courierCommentInput, webDriver);
+    WebElement courierCommentInput = driver.findElement(COURIER_COMMENT_INPUT_XPATH);
     courierCommentInput.sendKeys(courierComment);
   }
 
-  public void clickNextButton(WebDriver webDriver) {
-    WebElement nextButton = webDriver.findElement(NEXT_BUTTON_XPATH);
-//    scrollToElement(nextButton, webDriver);
+  public void clickNextButton() {
+    WebElement nextButton = driver.findElement(NEXT_BUTTON_XPATH);
     nextButton.click();
   }
 
-  public void clickOrderButton(WebDriver webDriver) {
-    WebElement orderButton = webDriver.findElement(MIDDLE_ORDER_BUTTON_XPATH);
-//    scrollToElement(orderButton, webDriver);
+  public void clickOrderButton() {
+    WebElement orderButton = driver.findElement(MIDDLE_ORDER_BUTTON_XPATH);
     orderButton.click();
   }
 
-  public void clickConfirmButton(WebDriver webDriver) {
-    WebElement confirmButton = findElementWaitingVisibility(CONFIRM_BUTTON_XPATH, webDriver);
-//    scrollToElement(confirmButton, webDriver);
+  public void clickConfirmButton() {
+    WebElement confirmButton = findElementWaitingVisibility(CONFIRM_BUTTON_XPATH);
     confirmButton.click();
   }
 
-  public String getSuccessDialogHeaderText(WebDriver webDriver) {
-    return findElementWaitingVisibility(SUCCESS_ORDER_DIALOG_HEADER_XPATH, webDriver).getText();
+  public String getSuccessDialogHeaderText() {
+    return findElementWaitingVisibility(SUCCESS_ORDER_DIALOG_HEADER_XPATH).getText();
   }
 }

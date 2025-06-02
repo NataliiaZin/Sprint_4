@@ -1,6 +1,8 @@
 package ru.yandex.praktitum.tests.enums.order;
 
+import lombok.Getter;
 
+@Getter
 public enum RentalPeriod {
   DAY("сутки"),
   TWO_DAYS("двое суток"),
@@ -14,9 +16,5 @@ public enum RentalPeriod {
 
   RentalPeriod(String period) {
     this.period = period;
-  }
-
-  public String getPeriod() {
-    return period;
   }
 }

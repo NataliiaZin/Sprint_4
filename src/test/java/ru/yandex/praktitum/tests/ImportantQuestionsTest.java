@@ -1,87 +1,52 @@
 package ru.yandex.praktitum.tests;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import ru.yandex.praktitum.tests.enums.ImportantQuestionsPanel;
 import ru.yandex.praktitum.tests.page_object.MainPage;
 import ru.yandex.praktitum.tests.properties.TestProperties;
-import ru.yandex.praktitum.tests.utils.WebDriverUtil;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class ImportantQuestionsTest {
+@RunWith(Parameterized.class)
+public class ImportantQuestionsTest extends BaseTest {
 
-  private WebDriver driver;
+  private final ImportantQuestionsPanel importantQuestionsPanel;
   private MainPage mainPage;
+
+  public ImportantQuestionsTest(ImportantQuestionsPanel importantQuestionsPanel) {
+    this.importantQuestionsPanel = importantQuestionsPanel;
+  }
 
   @Before
   public void setup() {
-    driver = WebDriverUtil.initWebDriver();
-    mainPage = new MainPage();
+    mainPage = new MainPage(driver);
   }
 
   @Test
-  public void validateImportantQuestionsPanelText() {
+  public void validateImportantQuestionsPanelTextTest() {
     driver.get(TestProperties.getProperty("application.url"));
-    String costHeadingText = mainPage.getCostPanelText(driver);
-    assertEquals("Сутки — 400 рублей. Оплата курьеру — наличными или картой.", costHeadingText);
-
-    String fewScooterPanelText = mainPage.getFewScooterPanelText(driver);
-    assertEquals(
-        "Пока что у нас так: один заказ — один самокат."
-        + " Если хотите покататься с друзьями, "
-        + "можете просто сделать несколько заказов — один за другим.",
-        fewScooterPanelText
-    );
-
-    String rentSettlementPanelText = mainPage.getRentSettlementPanelText(driver);
-    assertEquals(
-        "Допустим, вы оформляете заказ на 8 мая. "
-        + "Мы привозим самокат 8 мая в течение дня. "
-        + "Отсчёт времени аренды начинается с момента, "
-        + "когда вы оплатите заказ курьеру. "
-        + "Если мы привезли самокат 8 мая в 20:30, "
-        + "суточная аренда закончится 9 мая в 20:30.",
-        rentSettlementPanelText
-    );
-
-    String todayRentPanelText = mainPage.getTodayRentPanelText(driver);
-    assertEquals(
-        "Только начиная с завтрашнего дня. Но скоро станем расторопнее.",
-        todayRentPanelText
-    );
-
-    String renewReturnPanelText = mainPage.getRenewReturnPanelText(driver);
-    assertEquals(
-        "Пока что нет! "
-        + "Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.",
-        renewReturnPanelText
-    );
-
-    String chargerPanelText = mainPage.getChargerPanelText(driver);
-    assertEquals("Самокат приезжает к вам с полной зарядкой. "
-                 + "Этого хватает на восемь суток — даже если будете кататься без передышек и во сне."
-                 + " Зарядка не понадобится.",
-        chargerPanelText
-    );
-
-    String orderCancelingPanelText = mainPage.getOrderCancelingPanelText(driver);
-    assertEquals("Да, пока самокат не привезли."
-                 + " Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.",
-        orderCancelingPanelText
-    );
-
-    String longDistanceDeliveryPanelText = mainPage.getLongDistanceDeliveryPanelText(driver);
-    assertEquals("Да, обязательно. Всем самокатов! И Москве, и Московской области.",
-        longDistanceDeliveryPanelText
-    );
+    String panelText = mainPage.getPanelText(importantQuestionsPanel);
+    assertEquals(importantQuestionsPanel.getExpectedText(), panelText);
   }
 
-  @After
-  public void teardown() {
-    if (driver != null) {
-      driver.quit();
-    }
+  @Parameterized.Parameters
+  public static List<Object[]> parameters() {
+    return Arrays.asList(new Object[][]{
+        {ImportantQuestionsPanel.COST_PANEL},
+        {ImportantQuestionsPanel.FEW_SCOOTER_PANEL},
+        {ImportantQuestionsPanel.RENT_SETTLEMENT_PANEL},
+        {ImportantQuestionsPanel.TODAY_RENT_PANEL},
+        {ImportantQuestionsPanel.RENEW_RETURN_PANEL},
+        {ImportantQuestionsPanel.CHARGER_PANEL},
+        {ImportantQuestionsPanel.ORDER_CANCELING_PANEL},
+        {ImportantQuestionsPanel.LONG_DISTANCE_DELIVERY_PANEL}
+    });
   }
+
 }

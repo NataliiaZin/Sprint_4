@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import ru.yandex.praktitum.tests.enums.ImportantQuestionsPanel;
 
 public class MainPage extends BasePage {
 
@@ -27,78 +28,111 @@ public class MainPage extends BasePage {
     private final static By MIDDLE_ORDER_BUTTON_XPATH = By.xpath("//button[contains(@class,'Button_Middle') and text()='Заказать']");
     private static final By COOKIE_BUTTON_XPATH = By.xpath("//button[contains(@class, 'App_CookieButton') and text()='да все привыкли']");
 
+    public MainPage(WebDriver driver) {
+        super(driver);
+    }
 
-    public String getCostPanelText(WebDriver driver) {
+    public String getPanelText(ImportantQuestionsPanel importantQuestionsPanel) {
+      switch (importantQuestionsPanel) {
+        case COST_PANEL:
+          return getCostPanelText();
+        case CHARGER_PANEL:
+          return getChargerPanelText();
+        case TODAY_RENT_PANEL:
+          return getTodayRentPanelText();
+        case FEW_SCOOTER_PANEL:
+          return getFewScooterPanelText();
+        case RENEW_RETURN_PANEL:
+          return getRenewReturnPanelText();
+        case LONG_DISTANCE_DELIVERY_PANEL:
+          return getLongDistanceDeliveryPanelText();
+        case ORDER_CANCELING_PANEL:
+          return getOrderCancelingPanelText();
+        case RENT_SETTLEMENT_PANEL:
+          return getRentSettlementPanelText();
+        default: throw new RuntimeException("Unkown important questions panel received. Name: " + importantQuestionsPanel.name());
+      }
+    }
+
+    private String getCostPanelText() {
         WebElement costHeadingElement = driver.findElement(COST_HEADING_XPATH);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", costHeadingElement);
+        waitForElementToBeClickable(costHeadingElement);
         costHeadingElement.click();
-        return findElementWaitingVisibility(COST_PANEL_XPATH, driver).getText();
+        return findElementWaitingVisibility(COST_PANEL_XPATH).getText();
     }
 
-    public String getFewScooterPanelText(WebDriver driver) {
-        WebElement costHeadingElement = driver.findElement(FEW_SCOOTER_HEADING_XPATH);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", costHeadingElement);
-        costHeadingElement.click();
-        return findElementWaitingVisibility(FEW_SCOOTER_PANEL_XPATH, driver).getText();
+    private String getFewScooterPanelText() {
+        WebElement fewScooterHeadingElement = driver.findElement(FEW_SCOOTER_HEADING_XPATH);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", fewScooterHeadingElement);
+        waitForElementToBeClickable(fewScooterHeadingElement);
+        fewScooterHeadingElement.click();
+        return findElementWaitingVisibility(FEW_SCOOTER_PANEL_XPATH).getText();
     }
 
-    public String getRentSettlementPanelText(WebDriver driver) {
-        WebElement costHeadingElement = driver.findElement(RENT_SETTLEMENT_HEADING_XPATH);
-        scrollToElement(costHeadingElement, driver);
-        costHeadingElement.click();
-        return findElementWaitingVisibility(RENT_SETTLEMENT_PANEL_XPATH, driver).getText();
+    private String getRentSettlementPanelText() {
+        WebElement rentSettlementHeadingElement = driver.findElement(RENT_SETTLEMENT_HEADING_XPATH);
+        scrollToElement(rentSettlementHeadingElement);
+        waitForElementToBeClickable(rentSettlementHeadingElement);
+        rentSettlementHeadingElement.click();
+        return findElementWaitingVisibility(RENT_SETTLEMENT_PANEL_XPATH).getText();
     }
 
-    public String getTodayRentPanelText(WebDriver driver) {
+    private String getTodayRentPanelText() {
         WebElement todayRentHeadingElement = driver.findElement(TODAY_RENT_HEADING_XPATH);
-        scrollToElement(todayRentHeadingElement, driver);
+        scrollToElement(todayRentHeadingElement);
+        waitForElementToBeClickable(todayRentHeadingElement);
         todayRentHeadingElement.click();
-        return findElementWaitingVisibility(TODAY_RENT_PANEL_XPATH, driver).getText();
+        return findElementWaitingVisibility(TODAY_RENT_PANEL_XPATH).getText();
     }
 
-    public String getRenewReturnPanelText(WebDriver driver) {
+    private String getRenewReturnPanelText() {
         WebElement renewReturnHeadingElement = driver.findElement(RENEW_RETURN_HEADING_XPATH);
-        scrollToElement(renewReturnHeadingElement, driver);
+        scrollToElement(renewReturnHeadingElement);
+        waitForElementToBeClickable(renewReturnHeadingElement);
         renewReturnHeadingElement.click();
-        return findElementWaitingVisibility(RENEW_RETURN_PANEL_XPATH, driver).getText();
+        return findElementWaitingVisibility(RENEW_RETURN_PANEL_XPATH).getText();
     }
 
-    public String getChargerPanelText(WebDriver driver) {
+    private String getChargerPanelText() {
         WebElement chargerHeadingElement = driver.findElement(CHARGER_HEADING_XPATH);
-        scrollToElement(chargerHeadingElement, driver);
+        scrollToElement(chargerHeadingElement);
+        waitForElementToBeClickable(chargerHeadingElement);
         chargerHeadingElement.click();
-        return findElementWaitingVisibility(CHARGER_PANEL_XPATH, driver).getText();
+        return findElementWaitingVisibility(CHARGER_PANEL_XPATH).getText();
     }
 
-    public String getOrderCancelingPanelText(WebDriver driver) {
+    private String getOrderCancelingPanelText() {
         WebElement orderCancelingHeadingElement = driver.findElement(ORDER_CANCELING_HEADING_XPATH);
-        scrollToElement(orderCancelingHeadingElement, driver);
+        scrollToElement(orderCancelingHeadingElement);
+        waitForElementToBeClickable(orderCancelingHeadingElement);
         orderCancelingHeadingElement.click();
-        return findElementWaitingVisibility(ORDER_CANCELING_PANEL_XPATH, driver).getText();
+        return findElementWaitingVisibility(ORDER_CANCELING_PANEL_XPATH).getText();
     }
 
-    public String getLongDistanceDeliveryPanelText(WebDriver driver) {
+    private String getLongDistanceDeliveryPanelText() {
         WebElement longDistanceDeliveryHeadingElement = driver.findElement(LONG_DISTANCE_DELIVERY_HEADING_XPATH);
-        scrollToElement(longDistanceDeliveryHeadingElement, driver);
+        scrollToElement(longDistanceDeliveryHeadingElement);
+        waitForElementToBeClickable(longDistanceDeliveryHeadingElement);
         longDistanceDeliveryHeadingElement.click();
-        return findElementWaitingVisibility(LONG_DISTANCE_DELIVERY_PANEL_XPATH, driver).getText();
+        return findElementWaitingVisibility(LONG_DISTANCE_DELIVERY_PANEL_XPATH).getText();
     }
 
-    public void clickOnTopOrderButton(WebDriver driver) {
-        WebElement topOrderButton = findElementWaitingVisibility(TOP_ORDER_BUTTON_XPATH, driver);
-        scrollToElement(topOrderButton, driver);
+    public void clickOnTopOrderButton() {
+        WebElement topOrderButton = findElementWaitingVisibility(TOP_ORDER_BUTTON_XPATH);
+        scrollToElement(topOrderButton);
         topOrderButton.click();
     }
 
-    public void clickOnMiddleOrderButton(WebDriver driver) {
-        WebElement middleButton = findElementWaitingVisibility(MIDDLE_ORDER_BUTTON_XPATH, driver);
-        scrollToElement(middleButton, driver);
-        waitForElementToBeClickable(middleButton, driver);
+    public void clickOnMiddleOrderButton() {
+        WebElement middleButton = findElementWaitingVisibility(MIDDLE_ORDER_BUTTON_XPATH);
+        scrollToElement(middleButton);
+        waitForElementToBeClickable(middleButton);
         middleButton.click();
     }
 
-    public void clickConfirmCookieButton(WebDriver webDriver) {
-        WebElement confirmCookieButton = findElementWaitingVisibility(COOKIE_BUTTON_XPATH, webDriver);
+    public void clickConfirmCookieButton() {
+        WebElement confirmCookieButton = findElementWaitingVisibility(COOKIE_BUTTON_XPATH);
         confirmCookieButton.click();
     }
 }

@@ -12,19 +12,25 @@ import java.time.Duration;
 
 public class BasePage {
 
-  public WebElement findElementWaitingVisibility(By locator, WebDriver driver) {
+  protected WebDriver driver;
+
+  public BasePage(WebDriver driver) {
+    this.driver = driver;
+  }
+
+  public WebElement findElementWaitingVisibility(By locator) {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     return wait.until(
         ExpectedConditions.visibilityOfElementLocated(locator)
     );
   }
 
-  public void waitForElementToBeClickable(WebElement element, WebDriver driver) {
+  public void waitForElementToBeClickable(WebElement element) {
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     wait.until(ExpectedConditions.elementToBeClickable(element));
   }
 
-  public void scrollToElement(WebElement element, WebDriver driver) {
+  public void scrollToElement(WebElement element) {
     ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
   }
 }
